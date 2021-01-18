@@ -85,5 +85,5 @@ def run_stats(item_list, total_count):
 print("Over " + str(totalruns) + " runs:")
 print("=== Turn Stats ===")
 run_stats(turnlist, totalturns)
-print("=== Time Stats ===")
+print("=== Time Stats (in seconds) ===")
 run_stats(timelist, totaltime)
