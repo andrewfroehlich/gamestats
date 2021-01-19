@@ -64,18 +64,18 @@ for run in range(totalruns):
     totalturns += turns
     totalminutes += time/60.0
 
-def percentile(perc, item_list):
-    return round(item_list[int(round(len(item_list)*perc/100.0))],1)
+def percentile_str(perc, item_list):
+    return str(round(item_list[int(round(len(item_list)*perc/100.0))],1))
     
 def run_stats(item_list, total_count):
     item_list.sort()
     print("Minimum: " + str(item_list[0]))
-    print("5th Percentile: " + str(percentile(5, item_list)))
-    print("25th Percentile: " + str(percentile(25, item_list)))
-    print("Median: " + str(percentile(50, item_list)))
+    print("5th Percentile: " + percentile_str(5, item_list))
+    print("25th Percentile: " + percentile_str(25, item_list))
+    print("Median: " + percentile_str(50, item_list))
     print("Average: " + str(round(total_count/totalruns,1)))
-    print("75th Percentile: " + str(percentile(75, item_list)))
-    print("95th Percentile: " + str(percentile(95, item_list)))
+    print("75th Percentile: " + percentile_str(75, item_list))
+    print("95th Percentile: " + percentile_str(95, item_list))
     print("Maximum: " + str(item_list[-1]))
     
 print("Over " + str(totalruns) + " runs:")
