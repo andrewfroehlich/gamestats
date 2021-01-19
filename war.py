@@ -2,14 +2,14 @@ import random
 
 ### CONFIGURATIONS SECTION ###
 totalruns = 1000 #number of runs to simulate
-seconds_per_turn = 5 #number of seconds an average turn takes, not including the war
-seconds_per_war = 10 #number of seconds added by each war
+seconds_per_turn = 4 #number of seconds an average turn takes, not including the war
+seconds_per_war = 11 #number of seconds added by each war
 ### END CONFIGURATIONS SECTION ###
 
 totalturns = 0 #sum of all turns, for average
-totaltime = 0 #sum of all time taken
+totalminutes = 0 #sum of all time taken
 turnlist = [] #list of all turn results for min/max/median
-timelist = [] #list of all time results for min/max/median
+timelist = [] #list of all time results in minutes for min/max/median
 
 def getcard(deck, discard):
     if not deck:
@@ -17,10 +17,6 @@ def getcard(deck, discard):
         deck = discard
         discard = []
     card = deck.pop()
-    if not deck:
-        random.shuffle(discard)
-        deck = discard
-        discard = []
     return card
 
 def remaining1():
@@ -43,8 +39,8 @@ for run in range(totalruns):
     while(remaining1() > 0 and remaining2() > 0):
         turns += 1
         time += seconds_per_turn
-        card1 = [ getcard(p1,p1discard) ]
-        card2 = [ getcard(p2,p2discard) ]
+        card1 = [getcard(p1,p1discard)]
+        card2 = [getcard(p2,p2discard)]
         while(card1[-1] == card2[-1]):
             time += seconds_per_war
             cards_to_burn = min([remaining1(), remaining2(), 4])
@@ -62,14 +58,14 @@ for run in range(totalruns):
         else:
             # Assumes that the player that ran out of cards to do further wars is declared the loser (or a draw)
             break
-
+    
     turnlist.append(turns)
-    timelist.append(time)
+    timelist.append(round(time/60.0,1))
     totalturns += turns
-    totaltime += time
+    totalminutes += time/60.0
 
 def percentile(perc, item_list):
-    return item_list[int(round(len(item_list)*perc/100.0))]
+    return round(item_list[int(round(len(item_list)*perc/100.0))],1)
     
 def run_stats(item_list, total_count):
     item_list.sort()
@@ -77,7 +73,7 @@ def run_stats(item_list, total_count):
     print("5th Percentile: " + str(percentile(5, item_list)))
     print("25th Percentile: " + str(percentile(25, item_list)))
     print("Median: " + str(percentile(50, item_list)))
-    print("Average: " + str(total_count/totalruns))
+    print("Average: " + str(round(total_count/totalruns,1)))
     print("75th Percentile: " + str(percentile(75, item_list)))
     print("95th Percentile: " + str(percentile(95, item_list)))
     print("Maximum: " + str(item_list[-1]))
@@ -85,5 +81,5 @@ def run_stats(item_list, total_count):
 print("Over " + str(totalruns) + " runs:")
 print("=== Turn Stats ===")
 run_stats(turnlist, totalturns)
-print("=== Time Stats (in seconds) ===")
-run_stats(timelist, totaltime)
+print("=== Time Stats (in minutes) ===")
+run_stats(timelist, totalminutes)
