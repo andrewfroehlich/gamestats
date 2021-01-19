@@ -19,11 +19,8 @@ def getcard(deck, discard):
     card = deck.pop()
     return card
 
-def remaining1():
-    return len(p1)+len(p1discard)
-    
-def remaining2():
-    return len(p2)+len(p2discard)
+def remaining(player):
+    return len(p1)+len(p1discard) if player==1 else len(p2)+len(p2discard)
 
 for run in range(totalruns):
     #shuffle and deal, 11=J, 12=Q, 13=K, 14=A
@@ -36,14 +33,14 @@ for run in range(totalruns):
     turns = 0
     time = 0
     
-    while(remaining1() > 0 and remaining2() > 0):
+    while(remaining(1) > 0 and remaining(2) > 0):
         turns += 1
         time += seconds_per_turn
         card1 = [getcard(p1,p1discard)]
         card2 = [getcard(p2,p2discard)]
         while(card1[-1] == card2[-1]):
             time += seconds_per_war
-            cards_to_burn = min([remaining1(), remaining2(), 4])
+            cards_to_burn = min([remaining(1), remaining(2), 4])
             if cards_to_burn == 0:
                 break
             for x in range(0,cards_to_burn):
