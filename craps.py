@@ -18,7 +18,8 @@ import random
 simulation_mode = 'threshold'  # 'fixed_rounds' runs a set number of rounds, 'threshold' runs until win/loss threshold
 
 # Fixed rounds mode settings
-totalruns = 5000  # number of rounds per simulation (only used in 'fixed_rounds' mode)
+total_rounds = 5000  # number of rounds per simulation (only used in 'fixed_rounds' mode)
+                     # A round is until: comeout win/loss, point made, or seven out
 
 # Threshold mode settings
 win_threshold = 100  # Stop simulation when bankroll reaches this amount (only used in 'threshold' mode)
@@ -258,7 +259,7 @@ def run_single_simulation(sim_num):
     while True:
         # Check termination conditions based on mode
         if simulation_mode == 'fixed_rounds':
-            if run >= totalruns:
+            if run >= total_rounds:
                 break
         elif simulation_mode == 'threshold':
             if total_bankroll >= win_threshold:
@@ -405,7 +406,7 @@ def print_bet_statistics(avg_dice_rolls, avg_rounds, avg_low_hits, avg_high_hits
 
 # Run multiple simulations
 if simulation_mode == 'fixed_rounds':
-    print(f"Running {num_simulations} simulations of {totalruns:,} rounds each...")
+    print(f"Running {num_simulations} simulations of {total_rounds:,} rounds each...")
 elif simulation_mode == 'threshold':
     print(f"Running {num_simulations} simulations until win/loss threshold...")
     print(f"  Win threshold: ${win_threshold:+.2f}")
@@ -451,7 +452,7 @@ print(f"Strategy: {strategy.replace('_', ' ').title()}")
 print(f"Number of simulations: {num_simulations}")
 
 if simulation_mode == 'fixed_rounds':
-    print(f"Rounds per simulation: {totalruns:,}")
+    print(f"Rounds per simulation: {total_rounds:,}")
 elif simulation_mode == 'threshold':
     print(f"Win threshold: ${win_threshold:+.2f}")
     print(f"Loss threshold: ${loss_threshold:+.2f}")
